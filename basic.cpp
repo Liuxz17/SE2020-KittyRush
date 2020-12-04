@@ -63,7 +63,7 @@ QList <Doc_Info>* Doc_Info::get_reference()
     for(int i = 0; i < len; i++)
     {
         Doc_Info *temp = reference.at(i);
-        ref_list->append(*temp);
+        (*ref_list).append(*temp);
     }
     return ref_list;
 }
