@@ -15,19 +15,33 @@ class sci_ui_library_widget;
 
 namespace scigui {
 
+/**
+ * @brief 图书馆主界面
+ */
 class sci_ui_library_widget : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit sci_ui_library_widget(QWidget *parent = nullptr);
+    explicit sci_ui_library_widget(QString filename,QWidget *parent = nullptr);
     ~sci_ui_library_widget();
 
 private slots:
+    /**
+     * @brief 双击左侧树状窗口中条目时，弹出右侧详细窗口
+     * @param index
+     */
     void on_treeView_library_file_tree_doubleClicked(const QModelIndex &index);
-
+    /**
+     * @brief 暂时没用
+     * @param index
+     */
     void on_treeView_library_file_tree_clicked(const QModelIndex &index);
 
+    /**
+     * @brief 右键单击左侧树状窗口中条目时，弹出小菜单
+     * @param pos
+     */
     void on_treeView_library_file_tree_customContextMenuRequested(const QPoint &pos);
 
 protected:
@@ -38,6 +52,8 @@ private:
 
     QTreeView *treeView_library_file_tree;
     sci_file_model* model;//创建模型
+
+    QString _filename;
 
 };
 

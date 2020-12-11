@@ -12,6 +12,9 @@ class sci_ui_add_item_dialog;
 
 namespace scigui {
 
+/**
+ * @brief 为图书馆添加项目的窗口，目前啥也没有（有个文件名输入框；
+ */
 class sci_ui_add_item_dialog : public QDialog
 {
     Q_OBJECT
@@ -21,6 +24,10 @@ public:
     ~sci_ui_add_item_dialog();
 
 signals:
+    /**
+     * @brief 发送新建的文件项目
+     * @param item
+     */
     void emit_item( scicore::sci_file* item);
 
 private slots:

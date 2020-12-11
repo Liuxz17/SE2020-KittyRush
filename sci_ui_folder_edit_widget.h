@@ -9,7 +9,9 @@ class sci_ui_folder_edit_widget;
 }
 
 namespace scigui {
-//TODO
+/**
+ * @brief 文件夹详细窗口，目前啥也没有
+ */
 class sci_ui_folder_edit_widget : public QWidget
 {
     Q_OBJECT

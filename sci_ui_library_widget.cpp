@@ -7,10 +7,12 @@
 #include "sci_folder.h"
 #include "sci_file_visitor_adaptor.h"
 
+#include "sci_sl_file.h"
+
 namespace scigui {
 
-sci_ui_library_widget::sci_ui_library_widget(QWidget *parent) :
-    QMainWindow(parent),
+sci_ui_library_widget::sci_ui_library_widget(QString filename,QWidget *parent) :
+    QMainWindow(parent),_filename(filename),
     ui(new Ui::sci_ui_library_widget)
 {
     ui->setupUi(this);
@@ -24,10 +26,16 @@ sci_ui_library_widget::sci_ui_library_widget(QWidget *parent) :
     this->ui->treeView_library_file_tree->setContextMenuPolicy(Qt::CustomContextMenu);
 
     model = new sci_file_model(this);//创建模型
-    model->set_root(new scicore::sci_folder("root"));
+
+    sci_sl_file save;
 
 
+    scicore::sci_file* file = save.load(_filename.toStdString());
 
+    model->set_root(file);
+
+
+/*
     scicore::sci_folder* example = new scicore::sci_folder("example");
     model->add_file(example,model->get_root());
 
@@ -40,7 +48,11 @@ sci_ui_library_widget::sci_ui_library_widget(QWidget *parent) :
     scicore::sci_folder* subfile2 = new scicore::sci_folder("subfile2");
     model->add_file(subfile2,example2);
 
+    scicore::sci_folder* subfile3 = new scicore::sci_folder("subfile3");
+    model->add_file(subfile3,example2);
+*/
     ui->treeView_library_file_tree->setModel(model);
+
 
 }
 

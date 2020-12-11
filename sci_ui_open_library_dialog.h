@@ -9,6 +9,9 @@ class sci_ui_open_library_dialog;
 
 namespace scigui{
 
+/**
+ * @brief 打开图书馆界面：用来显示电脑文件系统并选取并读取其中图书馆储存文件
+ */
 class sci_ui_open_library_dialog : public QDialog
 {
     Q_OBJECT
