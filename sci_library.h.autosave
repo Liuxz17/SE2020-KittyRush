@@ -5,6 +5,9 @@
 
 namespace scicore {
 
+/**
+ * @brief 图书馆类，用于储存文件树并完成一系列操作（目前啥操作都没有
+ */
 class sci_library
 {
 public:

@@ -4,6 +4,11 @@
 #include <QDebug>
 #include <QMouseEvent>
 
+#include "sci_folder.h"
+#include "sci_file_visitor_adaptor.h"
+
+namespace scigui {
+
 sci_ui_library_widget::sci_ui_library_widget(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::sci_ui_library_widget)
@@ -18,19 +23,25 @@ sci_ui_library_widget::sci_ui_library_widget(QWidget *parent) :
     //设置右键自定义菜单
     this->ui->treeView_library_file_tree->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    model = new QStandardItemModel(ui->treeView_library_file_tree);//创建模型
+    model = new sci_file_model(this);//创建模型
+    model->set_root(new scicore::sci_folder("root"));
+
+
+
+    scicore::sci_folder* example = new scicore::sci_folder("example");
+    model->add_file(example,model->get_root());
+
+    scicore::sci_folder* example2 = new scicore::sci_folder("example2");
+    model->add_file(example2,model->get_root());
+
+    scicore::sci_folder* subfile = new scicore::sci_folder("subfile");
+    model->add_file(subfile,example);
+
+    scicore::sci_folder* subfile2 = new scicore::sci_folder("subfile2");
+    model->add_file(subfile2,example2);
+
     ui->treeView_library_file_tree->setModel(model);
 
-    QStandardItem * item = new QStandardItem(tr("example"));//创建一个条目对象
-
-    sci_ui_folder *object = new sci_ui_folder(item);
-    QVariant variant;
-    variant.setValue(object);
-
-    item->setData(variant);
-    //qDebug()<<item->data(Qt::DisplayRole);
-
-    model->appendRow(item);//通过模型对象添加这个条目
 }
 
 sci_ui_library_widget::~sci_ui_library_widget()
@@ -40,12 +51,13 @@ sci_ui_library_widget::~sci_ui_library_widget()
 
 void sci_ui_library_widget::on_treeView_library_file_tree_doubleClicked(const QModelIndex &index)
 {
-    sci_ui_file* file = index.data(Qt::UserRole+1).value<sci_ui_file*>();
-    QWidget* edit_widget = file->edit_widget(this);
 
+    //获取选取文件的指针
+    scicore::sci_file* file = model->file_from_index(index);
+    scigui::sci_ui_file* ui_file = scigui::ui_of_file(file, model);
+    //右边打开编辑窗口，这里是随便加的
+    QWidget* edit_widget = ui_file->edit_widget(this);
     this->ui->tabWidget_file_edit->addTab(edit_widget,index.data().toString());
-    //ui->tabWidget_->addTab(tabCalibration, QIcon("Resources\\a10.ico"), tr("校准"));//在后面添加带图标的选项卡
-    //右边窗口显示详细信息
 }
 
 void sci_ui_library_widget::on_treeView_library_file_tree_clicked(const QModelIndex &index)
@@ -77,8 +89,12 @@ void sci_ui_library_widget::mousePressEvent(QMouseEvent *event){
 void sci_ui_library_widget::on_treeView_library_file_tree_customContextMenuRequested(const QPoint &pos)
 {
     QModelIndex index=ui->treeView_library_file_tree->currentIndex();
-    sci_ui_file* file = index.data(Qt::UserRole+1).value<sci_ui_file*>();
+    scicore::sci_file* file = this->model->file_from_index(index);
 
-    QMenu* menu=file->context_menu(this);
+    scigui::sci_ui_file* ui_file = scigui::ui_of_file(file, model);
+    QMenu* menu=ui_file->context_menu(this);
     menu->exec(QCursor::pos()); //在鼠标点击的位置显示鼠标右键菜单
+}
+
+
 }

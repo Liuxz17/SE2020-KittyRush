@@ -7,6 +7,8 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+namespace scigui {
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -25,4 +27,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
 };
+
+}
+
 #endif // MAINWINDOW_H

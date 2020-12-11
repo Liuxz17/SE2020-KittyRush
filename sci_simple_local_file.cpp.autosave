@@ -1,0 +1,78 @@
+#include "sci_simple_local_file.h"
+
+#include <stdio.h>
+#include <string.h>
+
+namespace scisl {
+
+sci_simple_local_file::sci_simple_local_file()
+{
+    _length = 0;
+}
+
+void sci_simple_local_file::open(){
+    
+    if( (_file=fopen(_path, "wb+")) == NULL ){
+        //错误处理
+    }
+    
+    fseek(_file, 0L, SEEK_END);
+    long long len = ftell(_file);
+    
+    if(len>=1024*1024)
+        return;
+    
+    //cout <<"文件长度:"<< len << endl;
+    rewind(_file);
+    if (fread(_buffer, 1, len, _file) != len) {
+        //错误处理
+    }
+    
+}
+
+void sci_simple_local_file::close(){
+    
+    fwrite(_buffer,_length,1,_file);
+    
+    fclose(_file);
+}
+
+
+void sci_simple_local_file::begin_write(){
+
+}
+
+void sci_simple_local_file::end_write(){
+    
+}
+
+void sci_simple_local_file::write(char* data,long long offset){
+    long long end = end_offset(data,offset);
+    
+    if(end>=1024*1024){
+        return;
+    }
+    
+    strcpy(_buffer+offset,data);
+    
+    _length = _length>end?_length:end;
+    
+}
+
+long long sci_simple_local_file::end_offset(char *data, long long offset){
+    return strlen(data)+offset;
+}
+
+
+const char* sci_simple_local_file::read(long long offset, long long length){
+    char* data = new char[length+1];
+
+    strncpy(data,_buffer+offset,length);
+    
+    data[length] = '\0';
+    
+    return data;
+}
+
+}
+

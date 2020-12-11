@@ -1,26 +1,48 @@
-#ifndef SCI_FILE_H
-#define SCI_FILE_H
+#ifndef SCI_UI_FILE_H
+#define SCI_UI_FILE_H
+
 
 #include <QDebug>
 #include <QVariant>
 #include <QMenu>
-#include <QStandardItem>
+
+#include "sci_file_visitor.h"
+#include "sci_file_model.h"
+
+namespace scigui {
+
+class sci_file_visitor_adaptor;
+
+/**
+ * @brief 文件的ui表示类，控制用户界面中文件的互动
+ */
 
 class sci_ui_file:public QObject
 {
     Q_OBJECT
 public:
-    sci_ui_file();
-    sci_ui_file(QStandardItem* item):_ui_model_item(item){};
-
+    sci_ui_file(sci_file_model* model = NULL);
+    //sci_ui_file(sci_file* item):_ui_m(item){};
+    /**
+     * @brief 纯虚函数，所有需要在ui界面中显示的文件类都需重载此函数，用于指定在树状列表中右键该文件弹出的菜单样式
+     * @param 父对象
+     * @return
+     */
     virtual QMenu* context_menu(QWidget* parent)=0;
-    virtual QWidget* edit_widget(QWidget* parent)=0;
-protected:
-    QStandardItem* _ui_model_item;
-private:
 
+    /**
+     * @brief 纯虚函数，所有需要在ui界面中显示的文件类都需重载此函数，用于指定在树状列表中左键双击该文件时，右侧详细信息窗口的样式
+     * @param 父对象
+     * @return
+     */
+    virtual QWidget* edit_widget(QWidget* parent)=0;
+
+    virtual void set_model(sci_file_model* model);
+protected:
+    sci_file_model* _model;
 };
 
-Q_DECLARE_METATYPE(sci_ui_file*);
+}
 
-#endif // SCI_FILE_H
+
+#endif // SCI_UI_FILE_H

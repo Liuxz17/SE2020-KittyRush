@@ -7,6 +7,8 @@
 //qt ui includes
 #include <QFileDialog>
 
+namespace scigui {
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -37,3 +39,7 @@ void MainWindow::on_pushButton_add_library_clicked()
     QFileDialog* dialog = new QFileDialog();
     dialog->show();
 }
+
+
+}
+

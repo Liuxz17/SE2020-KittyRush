@@ -1,0 +1,41 @@
+#ifndef SCI_SAVE_MODEL_H
+#define SCI_SAVE_MODEL_H
+
+#include "stdio.h"
+
+namespace scisl {
+
+class sci_local_file
+{
+public:
+    sci_local_file();
+    
+    void set_path(char* path);
+    
+    char* get_path();
+    
+    void clear_path();
+    
+    void change_path(char* path);
+    
+    virtual void open()=0;
+    
+    virtual void close()=0;
+    
+    virtual void begin_write()=0;
+
+    virtual void end_write()=0;
+
+    virtual void write(char* data,long long offset)=0;
+
+    virtual const char* read(long long offset, long long length)=0;
+protected:
+    
+    char* _path;
+};
+
+}
+
+
+
+#endif // SCI_SAVE_MODEL_H

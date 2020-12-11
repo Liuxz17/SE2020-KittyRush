@@ -1,0 +1,101 @@
+#ifndef SCI_SAVE_FILE_H
+#define SCI_SAVE_FILE_H
+
+#include <string>
+#include <vector>
+#include <map>
+#include "sci_file.h"
+
+#define _DATA_UNIT_SIZE 128
+#define _DATA_UNIT_VALID_SIZE 120
+
+void int_2_str(unsigned int i,char* c);
+
+unsigned int str_2_int(char* c);
+
+
+namespace scisl {
+
+class sci_save_item;
+
+class sci_save_file
+{
+public:
+    sci_save_file();
+    
+    virtual sci_save_item* new_save_item();
+    
+    virtual bool save_all();
+    
+    virtual sci_save_item* load_first();
+    
+    //void save(sci_save_item* item);
+    
+    //void load(sci_save_item* item);
+    
+    int max_unit();
+    
+    void unit_increase();
+protected:
+    int _max_unit;//实际单位
+    std::map<int,sci_save_item> _item_buffer;
+};
+
+
+class sci_save_item{
+public:
+    sci_save_item(sci_save_file* parent);
+    
+    virtual sci_save_item& operator<<(char* data);
+
+    virtual sci_save_item& operator<<(sci_save_item* data);
+    
+    virtual void operator>>(std::string& dest);
+    
+    virtual void operator>>(sci_save_item*& dest);
+    
+    virtual void clear();
+    
+    virtual void save();
+    
+    virtual void load();
+    
+    virtual bool should_save();
+    
+protected:
+    std::string _buffer;
+    int _unit_index;
+    sci_save_file* _parent;
+};
+
+class sci_file_sl{
+    
+public:
+    void save(scicore::sci_file* root){
+        sci_save_item* item = get_save_item(root);
+        
+        sci_save_item* child_item = get_save_item(root->get_child(0));
+        
+        *item<<child_item<<root->write();
+        
+        
+    }
+    
+    void load(sci_save_item* root){
+        
+    }
+    
+    sci_save_item* get_save_item(scicore::sci_file* file){
+        //
+        return _hook[file];
+    }
+    
+private:
+    std::map<scicore::sci_file*,sci_save_item*> _hook;
+    
+};
+
+}
+
+
+#endif // SCI_SAVE_FILE_H

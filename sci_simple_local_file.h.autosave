@@ -1,0 +1,38 @@
+#ifndef SCI_SIMPLE_LOCAL_FILE_H
+#define SCI_SIMPLE_LOCAL_FILE_H
+
+#include "sci_locol_file.h"
+
+namespace scisl {
+
+class sci_simple_local_file:public sci_local_file
+{
+public:
+    sci_simple_local_file();
+    
+    void open() override;
+    
+    void close() override;
+    
+    void end_write() override;
+    
+    void begin_write() override;
+    
+    void write(char* data,long long offset);
+
+    const char* read(long long offset, long long length);
+    
+protected:
+    
+    long long end_offset(char* data,long long offset);
+    
+    char _buffer[1024*1024];
+    long long _length;
+    FILE* _file;
+    
+};
+
+}
+
+
+#endif // SCI_SIMPLE_LOCAL_FILE_H

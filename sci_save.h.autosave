@@ -1,0 +1,49 @@
+#ifndef SCI_SAVE_H
+#define SCI_SAVE_H
+
+#include "sci_file.h"
+
+#include "sci_simple_local_file.h"
+
+#include <string.h>
+
+namespace scisl {
+
+class sci_save
+{
+public:
+    sci_save();
+    
+    scicore::sci_file* read(char* path);
+    
+    bool write(scicore::sci_file* root){
+        current_unit = 0;
+        scicore::sci_file* file_ptr = root;
+        root->write();
+    }
+    
+    bool _write(scicore::sci_file* file,int current_unit){
+        
+    }
+    
+    bool write_char(char* data, int unit){
+        long long length = strlen(data);
+        
+        while()
+        
+        int total_unit = length/_data_unit_size;
+        
+        file->write(data,)
+    }
+    
+private:
+    int _data_unit_size;
+    int current_unit;
+    
+    sci_simple_local_file* file;
+};
+
+}
+
+
+#endif // SCI_SAVE_H
