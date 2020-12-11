@@ -1,0 +1,4 @@
+#ifndef SCI_FILE_VISITOR_H
+#define SCI_FILE_VISITOR_H
+
+#endif // SCI_FILE_VISITOR_H
