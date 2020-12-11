@@ -8,6 +8,9 @@
 
 namespace scicore {
 
+/**
+ * @brief file的访问者类，用于在外部增加操作
+ */
 class sci_file_visitor{
 public:
     virtual void visit(sci_folder *file) = 0;

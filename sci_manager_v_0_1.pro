@@ -23,10 +23,7 @@ SOURCES += \
     sci_file_visitor_adaptor.cpp \
     sci_folder.cpp \
     sci_library.cpp \
-    sci_locol_file.cpp \
-    sci_save.cpp \
-    sci_save_file.cpp \
-    sci_simple_local_file.cpp \
+    sci_sl_file.cpp \
     sci_ui_add_item_dialog.cpp \
     sci_ui_file.cpp \
     sci_ui_folder.cpp \
@@ -42,10 +39,7 @@ HEADERS += \
     sci_file_visitor_adaptor.h \
     sci_folder.h \
     sci_library.h \
-    sci_locol_file.h \
-    sci_save.h \
-    sci_save_file.h \
-    sci_simple_local_file.h \
+    sci_sl_file.h \
     sci_ui_add_item_dialog.h \
     sci_ui_file.h \
     sci_ui_folder.h \

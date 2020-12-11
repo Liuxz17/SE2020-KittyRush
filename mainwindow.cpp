@@ -30,7 +30,8 @@ void MainWindow::on_pushButton_new_library_clicked()
 
 void MainWindow::on_pushButton_open_library_clicked()
 {
-    sci_ui_library_widget* widget = new sci_ui_library_widget();
+    QString file_name = QFileDialog::getOpenFileName(NULL,"载入图书馆",".","*.sclb");
+    sci_ui_library_widget* widget = new sci_ui_library_widget(file_name);
     widget->show();
 }
 

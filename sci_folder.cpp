@@ -12,7 +12,7 @@ void sci_folder::read(std::string data){
 }
 
 std::string sci_folder::write(){
-    return std::string();
+    return std::string("folder");
 }
 
 bool sci_folder::add_file(sci_file *file){

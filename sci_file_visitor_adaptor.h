@@ -16,25 +16,19 @@ class sci_file_visitor_adaptor:public scicore::sci_file_visitor{
 public:
     sci_file_visitor_adaptor();
 
-    void visit(scicore::sci_folder *file) override{
-        this->_ui_file = new sci_ui_folder(file);
-    }
+    void visit(scicore::sci_folder *file) override;
 
-    sci_ui_file* operator()(scicore::sci_file* file){
-        file->accept_file_visitor(this);
-        return _ui_file;
-    }
+    sci_ui_file* operator()(scicore::sci_file* file);
 
-    sci_ui_file* operator()(scicore::sci_file* file,sci_file_model* model){
-        file->accept_file_visitor(this);
-        _ui_file->set_model(model);
-        return _ui_file;
-    }
+    sci_ui_file* operator()(scicore::sci_file* file,sci_file_model* model);
 
 private:
     sci_ui_file* _ui_file;
 };
 
+/**
+ * @brief 伪函数，用于获得file的对应ui_file指针
+ */
 static sci_file_visitor_adaptor ui_of_file;
 
 }
