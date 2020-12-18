@@ -1,6 +1,11 @@
 QT       += core gui
-
+QT       += core testlib
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+
+INCLUDEPATH += $$PWD/poppler
+LIBS += -L$$PWD/poppler -llibpoppler
+LIBS += -L$$PWD/poppler -llibpoppler-qt5
 
 CONFIG += c++11
 
@@ -16,45 +21,90 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    empty_detail_widget.cpp \
+    library_sl_test.cpp \
+    library_widget.cpp \
     main.cpp \
-    mainwindow.cpp \
-    sci_file.cpp \
-    sci_file_model.cpp \
-    sci_file_visitor_adaptor.cpp \
-    sci_folder.cpp \
-    sci_library.cpp \
-    sci_sl_file.cpp \
-    sci_ui_add_item_dialog.cpp \
-    sci_ui_file.cpp \
-    sci_ui_folder.cpp \
-    sci_ui_folder_edit_widget.cpp \
-    sci_ui_library_widget.cpp \
-    sci_ui_open_library_dialog.cpp
+    sci_library_display_widget.cpp \
+    scicore/sci_library.cpp \
+    scicore/sci_file.cpp \
+    scicore/sci_folder.cpp \
+    scicore/sci_pdf_file.cpp \
+    scicore/sci_pdf_paper.cpp \
+    scigui/folder/sci_ui_add_item_dialog.cpp \
+    scigui/folder/sci_ui_folder_edit_widget.cpp \
+    scigui/new_library/sci_ui_open_library_dialog.cpp \
+    scigui/pdf_paper/sci_pdf_canvas.cpp \
+    scigui/pdf_paper/sci_pdf_detail_widget.cpp \
+    scigui/pdf_paper/sci_pdf_load_thread.cpp \
+    scigui/pdf_paper/sci_pdf_paper_widget.cpp \
+    scigui/pdf_paper/sci_pdf_reader.cpp \
+    scigui/pdf_paper/sci_pdf_utils.cpp \
+    scigui/sci_file_model.cpp \
+    scigui/sci_file_visitor_adaptor.cpp \
+    scigui/sci_ui_file.cpp \
+    scigui/sci_ui_folder.cpp \
+    scigui/sci_ui_library_widget.cpp \
+    scigui/sci_ui_pdf_paper.cpp \
+    scisl/sci_sl.cpp \
+    scisl/sci_sl_file.cpp \
+    scisl/sci_sl_file_visitor_adaptor.cpp \
+    scisl/sci_sl_folder.cpp \
+    scisl/sci_sl_lib.cpp \
+    scisl/sci_sl_lib_buffer.cpp \
+    scisl/sci_sl_pdf_paper.cpp
 
 HEADERS += \
-    mainwindow.h \
-    sci_file.h \
-    sci_file_model.h \
-    sci_file_visitor.h \
-    sci_file_visitor_adaptor.h \
-    sci_folder.h \
-    sci_library.h \
-    sci_sl_file.h \
-    sci_ui_add_item_dialog.h \
-    sci_ui_file.h \
-    sci_ui_folder.h \
-    sci_ui_folder_edit_widget.h \
-    sci_ui_library_widget.h \
-    sci_ui_open_library_dialog.h
+    empty_detail_widget.h \
+    library_sl_test.h \
+    library_widget.h \
+    sci_library_display_widget.h \
+    scicore/sci_file.h \
+    scicore/sci_folder.h \
+    scicore/sci_library.h \
+    scicore/sci_pdf_file.h \
+    scicore/sci_pdf_paper.h \
+    scicore/sci_file_visitor.h \
+    scigui/folder/sci_ui_add_item_dialog.h \
+    scigui/folder/sci_ui_folder_edit_widget.h \
+    scigui/new_library/sci_ui_open_library_dialog.h \
+    scigui/pdf_paper/sci_pdf_canvas.h \
+    scigui/pdf_paper/sci_pdf_detail_widget.h \
+    scigui/pdf_paper/sci_pdf_load_thread.h \
+    scigui/pdf_paper/sci_pdf_paper_widget.h \
+    scigui/pdf_paper/sci_pdf_reader.h \
+    scigui/pdf_paper/sci_pdf_utils.h \
+    scigui/sci_file_model.h \
+    scigui/sci_file_visitor_adaptor.h \
+    scigui/sci_ui_file.h \
+    scigui/sci_ui_folder.h \
+    scigui/sci_ui_library_widget.h \
+    scigui/sci_ui_pdf_paper.h \
+    scisl/sci_sl.h \
+    scisl/sci_sl_file.h \
+    scisl/sci_sl_file_visitor_adaptor.h \
+    scisl/sci_sl_folder.h \
+    scisl/sci_sl_lib.h \
+    scisl/sci_sl_lib_buffer.h \
+    scisl/sci_sl_pdf_paper.h
 
 FORMS += \
-    mainwindow.ui \
-    sci_ui_add_item_dialog.ui \
-    sci_ui_folder_edit_widget.ui \
-    sci_ui_library_widget.ui \
-    sci_ui_open_library_dialog.ui
+    display_widget.ui \
+    empty_detail_widget.ui \
+    library_widget.ui \
+    scigui/folder/sci_ui_add_item_dialog.ui \
+    scigui/folder/sci_ui_folder_edit_widget.ui \
+    scigui/new_library/sci_ui_open_library_dialog.ui \
+    scigui/pdf_paper/sci_pdf_paper_widget.ui \
+    scigui/pdf_paper/sci_pdf_reader.ui \
+    scigui/sci_ui_library_widget.ui \
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+
+RESOURCES += \
+    folder_icon.qrc

@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/gfx/icon">
+        <file>file_icon/Folder_Attempt_Generic.png</file>
+        <file>file_icon/Folder_Attempt.png</file>
+        <file>file_icon/Folder_Attempt_Dark.png</file>
+        <file>file_icon/Folder_Attempt_Generic_Dark.png</file>
+    </qresource>
+</RCC>

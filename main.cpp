@@ -1,11 +1,15 @@
-#include "mainwindow.h"
-
+#include "library_widget.h"
 #include <QApplication>
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
-    scigui::MainWindow w;
-    w.show();
+
+    QFont font("KaiTi");
+    QApplication::setFont(font);
+
+    // w;
+    //w.show();
+    library_widget w1;
+    w1.show();
     return a.exec();
 }
