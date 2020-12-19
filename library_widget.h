@@ -8,12 +8,13 @@
 #include <QGridLayout>
 
 #include <QSplitter>
-#include "sci_library_display_widget.h"
 
+#include "scigui/sci_ui_display_tab_widget.h"
 #include "scigui/sci_file_model.h"
 #include "scigui/sci_ui_file.h"
+#include "scigui/sci_ui_lib_buffer.h"
+#include "scigui/sci_ui_file_tree_view.h"
 
-#include "scisl/sci_sl_lib_buffer.h"
 #include "scisl/sci_sl_lib.h"
 
 namespace Ui {
@@ -40,15 +41,15 @@ private:
     QMenu *sciManagerMenu;
 
     //图书馆左侧树状文件窗口
-    QTreeView *treeView;
+    scigui::sci_ui_file_tree_view *_tree_view;
     scigui::sci_file_model *model;
 
     //图书馆右侧细节窗口
-    sci_library_display_widget *tab_widget;
+    scigui::sci_ui_display_tab_widget *_tab_widget;
     //分裂器
     QSplitter * splitter;
     //最近文档
-    scisl::sci_sl_lib_buffer _library_buffer;
+    scigui::sci_ui_lib_buffer _library_buffer;
     scisl::sci_sl_lib _lib;
 
 private:
@@ -58,16 +59,16 @@ private:
     void set_up_layout();
 
 public slots:
-    void on_treeView_library_file_tree_doubleClicked(const QModelIndex &index);
+    void load_lib(QString path);
+
 
     void newLibrary();
     void openLibrary();
     void parseDocument();
     void onlineImportDocument();
-    //void localImportDocument();
+    void localImportDocument();
     void exportDocument();
     void save();
-    void clearRAFRecord();
     void edit();
     void undo();
     void redo();

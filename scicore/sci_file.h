@@ -8,6 +8,7 @@ namespace scicore {
 
 class sci_file_visitor;
 
+
 /**
  * @brief 文件类，虚基类，负责为存储系统提供存储信息
  */

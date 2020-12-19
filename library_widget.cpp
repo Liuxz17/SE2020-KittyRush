@@ -21,15 +21,24 @@ library_widget::library_widget(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    this->set_up_menu_bar();
+    this->model = new scigui::sci_file_model(this);
 
-    this->set_up_tree_view();
+    _lib = scisl::sci_sl_lib("",model);
+
+    //读取最近使用的文件
+    _library_buffer.load();
+    _library_buffer.set_lib_menu();
+    connect(&_library_buffer,SIGNAL(library_selected(QString)),this,SLOT(load_lib(QString)));
+
+    this->set_up_menu_bar();
 
     this->set_up_tab_widget();
 
+    this->set_up_tree_view();
+
     this->set_up_layout();
 
-    _lib = scisl::sci_sl_lib("example.sclb",model);
+    this->setWindowTitle("图书馆："+QString::fromStdString(_lib.get_path()));
 
 }
 
@@ -81,12 +90,8 @@ void library_widget::set_up_menu_bar(){
     saveAction->setShortcut(Qt::CTRL | Qt::Key_S);
     connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
     fileMenu->addAction(saveAction);
-
-    recentlyAccessedFileMenu = new QMenu(tr("最近访问的文件"));
-    QAction* clearRAFRecordAction = new QAction(tr("清除记录"));
-    connect(clearRAFRecordAction, SIGNAL(triggered()), this, SLOT(clearRAFRecord()));
-    recentlyAccessedFileMenu->addAction(clearRAFRecordAction);
-    fileMenu->addMenu(recentlyAccessedFileMenu);
+    //最近浏览的图书馆菜单
+    fileMenu->addMenu(_library_buffer.get_lib_menu());
 
     fileMenu->addSeparator();
     fileMenu->addAction(tr("退出"), exit, QKeySequence("Ctrl+Q"));
@@ -171,7 +176,6 @@ void library_widget::set_up_menu_bar(){
 
 void library_widget::set_up_tree_view(){
     // treeView--------------------------------------------------------------------------------
-    this->model = new scigui::sci_file_model(this);
 //    this->model->set_root(new scicore::sci_folder("root"));
 //    this->model->add_file(new scicore::sci_folder("我的图书馆",NULL),model->get_root());
 //    this->model->add_file(new scicore::sci_folder("网络下载",NULL),model->get_root());
@@ -180,56 +184,55 @@ void library_widget::set_up_tree_view(){
 //    paper->set_path("F://SciManager//ex_pdf//a.pdf");
 //    this->model->add_file(paper,model->get_root()->get_child(0));
 
-    treeView = new QTreeView(this);
-    treeView->setHeaderHidden(true);        //设置隐藏表头
-    // treeView->setFixedWidth(400);
-    QFont treeFont;
-    treeFont.setPointSize(14);
-    treeView->setFont(treeFont);
-    treeView->setModel(this->model);
-
-    connect(treeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(on_treeView_library_file_tree_doubleClicked(QModelIndex)));
+    _tree_view = new scigui::sci_ui_file_tree_view(this);
+    _tree_view->set_model(this->model);
+    connect(_tree_view, SIGNAL(request_show_widget(QWidget*,QString)), _tab_widget, SLOT(add_page(QWidget*,QString)));
 }
 
 void library_widget::set_up_tab_widget(){
-    this->tab_widget = new sci_library_display_widget(this);
-    this->tab_widget->addTab(new empty_detail_widget,"welcome");
-    this->tab_widget->setTabsClosable(true);
+    this->_tab_widget = new scigui::sci_ui_display_tab_widget(this);
+    this->_tab_widget->addTab(new empty_detail_widget,"welcome");
 }
 
 void library_widget::set_up_layout(){
 
-
     splitter = new QSplitter(Qt::Orientation::Horizontal, this);//水平
     splitter->setStyleSheet("QSplitter:handle{background-color:grey}");
 
-    splitter->addWidget(treeView);
-    splitter->addWidget(tab_widget);
+    splitter->addWidget(_tree_view);
+    splitter->addWidget(_tab_widget);
 
     splitter->setStretchFactor(0,4);
     splitter->setStretchFactor(1,16);
     splitter->setHandleWidth(1);
     // mainLayout
-    QHBoxLayout* mainLayout = new QHBoxLayout(this);
+    QHBoxLayout* mainLayout = new QHBoxLayout(ui->centralwidget);
     mainLayout->addWidget(splitter);
 
     ui->centralwidget->setLayout(mainLayout);
 }
 
-void library_widget::on_treeView_library_file_tree_doubleClicked(const QModelIndex &index)
-{
 
-    //获取选取文件的指针
-    scicore::sci_file* file = model->file_from_index(index);
-    scigui::sci_ui_file* ui_file = scigui::ui_of_file(file, model);
-    //右边打开编辑窗口，这里是随便加的
-    QWidget* edit_widget = ui_file->edit_widget(this);
-    this->tab_widget->addTab(edit_widget,QString::fromStdString(file->get_name()));
+
+void library_widget::load_lib(QString path){
+    _lib.set_path(path.toStdString());
+    _lib.load();
+
+    _library_buffer.add_library(path.toStdString());
+    _library_buffer.save();
+    _library_buffer.set_lib_menu();
+
+
 }
 
 
 void library_widget::newLibrary() {
     qDebug("newLibrary");
+
+    _lib.set_path("");
+    model->set_root(new scicore::sci_folder("root"));
+
+    this->setWindowTitle("新建图书馆："+QString::fromStdString(_lib.get_path()));
 }
 
 void library_widget::openLibrary() {
@@ -239,12 +242,9 @@ void library_widget::openLibrary() {
     if(file_name.isEmpty()){
         return;//QMessageBox::critical(this,"")
     }
-    _lib = scisl::sci_sl_lib(file_name.toStdString(),model);
-    _lib.load();
-    model->remove_file(10);
 
-    _library_buffer.add_library(file_name.toStdString());
-
+    load_lib(file_name);
+    this->setWindowTitle("图书馆："+QString::fromStdString(_lib.get_path()));
 }
 
 void library_widget::parseDocument() {
@@ -254,33 +254,50 @@ void library_widget::parseDocument() {
 void library_widget::onlineImportDocument() {
     qDebug("onlineImportDocument");
 }
-/*
+
 void library_widget::localImportDocument() {
     qDebug("localImportDocument");
-    QString fileName = QFileDialog::getOpenFileName();
-    // qDebug()<<fileName;
-    if(!fileName.endsWith(".pdf")){
-        QMessageBox::critical(0 , "Import Error" , "Please Import Files in .pdf Form!");
-        return;
-    }
-    else{
-        QMessageBox::about(0 , "Import Success" , "Success in Importing the File.");
-        setPdfPath(fileName);
+
+    QString path = QFileDialog::getOpenFileName(this,"导入文件",".","*.pdf");
+    if(!path.isEmpty()){
+        QModelIndex index = _tree_view->currentIndex();
+        scicore::sci_file* parent = model->file_from_index(index);
+
+        if(!parent){
+            QMessageBox::critical(this,"错误","错误：未打开图书馆");
+            return;
+        }
+
+        QDir dir(path);
+
+        scicore::sci_pdf_paper* paper = new scicore::sci_pdf_paper(dir.dirName().toStdString(),parent);
+        paper->set_path(path.toStdString());
+        model->add_file(paper,parent);
     }
 }
-*/
+
 void library_widget::exportDocument() {
     qDebug("exportDocument");
 }
 
 void library_widget::save() {
     qDebug("save");
-    _lib.save();
+    if(_lib.get_path().empty()){
+        //如果该图书馆没有路径，说明需要保存
+        QString path = QFileDialog::getSaveFileName(this,"另存为",".","*.sclb");
+        qDebug()<<"new lib path: "<<path;
+        if(!path.isEmpty()){
+            _lib.set_path(path.toStdString());
+            _lib.save();
+        }
+    }
+    else{
+        _lib.save();
+    }
+
+    this->setWindowTitle("图书馆："+QString::fromStdString(_lib.get_path()));
 }
 
-void library_widget::clearRAFRecord() {
-    qDebug("clearRAFRecord");
-}
 
 void library_widget::edit() {
     qDebug("edit");

@@ -148,7 +148,17 @@ bool sci_file_model::setData(const QModelIndex &index, const QVariant &value, in
     return false;
 }
 
+void sci_file_model::clear(){
+    if(_root){
+        _root->delete_self();
+        delete _root;
+        _root = NULL;
+    }
+
+}
+
 void sci_file_model::set_root(scicore::sci_file *root){
+    clear();
     this->_root = root;
     qDebug()<<"virtual set root";
     emit dataChanged(index_of(root),index_of(root),{Qt::DisplayRole, Qt::EditRole});
@@ -156,20 +166,7 @@ void sci_file_model::set_root(scicore::sci_file *root){
 }
 
 bool sci_file_model::insert_file(int row, scicore::sci_file* file, scicore::sci_file *parent) {
-    if(!parent||!file){
-        return false;
-    }
-
-    if(parent->child_count()<row||0>row){
-        return false;
-    }
-
-    parent->insert_file(file,row);
-
-    emit layoutChanged();
-    //QModelIndex index = createIndex(row, 0, file);
-    //emit dataChanged(index, index, {Qt::DisplayRole, Qt::EditRole});
-    return true;
+    return insert_file(row,file,index_of(parent));
 }
 
 bool sci_file_model::insert_file(int row, scicore::sci_file* file, const QModelIndex &parent) {
@@ -216,8 +213,5 @@ bool sci_file_model::add_file(scicore::sci_file* file, scicore::sci_file* parent
     insert_file(parent->child_count(),file,index_of(parent));
     return true;
 }
-
-
-
 
 }

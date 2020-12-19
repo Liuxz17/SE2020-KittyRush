@@ -5,6 +5,14 @@
 #include "scicore/sci_folder.h"
 
 #include <string>
+
+#include <QJsonDocument>
+#include <QJsonParseError>
+#include <QFile>
+#include <QJsonObject>
+#include <QDebug>
+#include <QJsonArray>
+
 namespace scisl {
 
 class sci_sl_folder:public sci_sl_file
@@ -14,7 +22,7 @@ public:
         _folder = folder;
     }
 
-    char* write(){
+    void write(char* path){
         /*
         std::string content;
         for(int i = 0 ; i<_folder->child_count(); i++){
@@ -31,7 +39,7 @@ public:
     }
 
     char* path(){
-        return (char*)std::string(_folder->get_name()+".fd").c_str();
+        return "none";
     }
 
     char* desc(){

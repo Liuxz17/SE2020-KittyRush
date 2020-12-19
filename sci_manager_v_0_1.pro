@@ -25,7 +25,6 @@ SOURCES += \
     library_sl_test.cpp \
     library_widget.cpp \
     main.cpp \
-    sci_library_display_widget.cpp \
     scicore/sci_library.cpp \
     scicore/sci_file.cpp \
     scicore/sci_folder.cpp \
@@ -33,6 +32,7 @@ SOURCES += \
     scicore/sci_pdf_paper.cpp \
     scigui/folder/sci_ui_add_item_dialog.cpp \
     scigui/folder/sci_ui_folder_edit_widget.cpp \
+    scigui/lib_buffer/sci_ui_total_library_widget.cpp \
     scigui/new_library/sci_ui_open_library_dialog.cpp \
     scigui/pdf_paper/sci_pdf_canvas.cpp \
     scigui/pdf_paper/sci_pdf_detail_widget.cpp \
@@ -43,9 +43,12 @@ SOURCES += \
     scigui/sci_file_model.cpp \
     scigui/sci_file_visitor_adaptor.cpp \
     scigui/sci_ui_file.cpp \
+    scigui/sci_ui_file_tree_view.cpp \
     scigui/sci_ui_folder.cpp \
+    scigui/sci_ui_lib_buffer.cpp \
     scigui/sci_ui_library_widget.cpp \
     scigui/sci_ui_pdf_paper.cpp \
+    scigui/sci_ui_display_tab_widget.cpp \
     scisl/sci_sl.cpp \
     scisl/sci_sl_file.cpp \
     scisl/sci_sl_file_visitor_adaptor.cpp \
@@ -58,7 +61,6 @@ HEADERS += \
     empty_detail_widget.h \
     library_sl_test.h \
     library_widget.h \
-    sci_library_display_widget.h \
     scicore/sci_file.h \
     scicore/sci_folder.h \
     scicore/sci_library.h \
@@ -67,6 +69,7 @@ HEADERS += \
     scicore/sci_file_visitor.h \
     scigui/folder/sci_ui_add_item_dialog.h \
     scigui/folder/sci_ui_folder_edit_widget.h \
+    scigui/lib_buffer/sci_ui_total_library_widget.h \
     scigui/new_library/sci_ui_open_library_dialog.h \
     scigui/pdf_paper/sci_pdf_canvas.h \
     scigui/pdf_paper/sci_pdf_detail_widget.h \
@@ -77,9 +80,12 @@ HEADERS += \
     scigui/sci_file_model.h \
     scigui/sci_file_visitor_adaptor.h \
     scigui/sci_ui_file.h \
+    scigui/sci_ui_file_tree_view.h \
     scigui/sci_ui_folder.h \
+    scigui/sci_ui_lib_buffer.h \
     scigui/sci_ui_library_widget.h \
     scigui/sci_ui_pdf_paper.h \
+    scigui/sci_ui_display_tab_widget.h \
     scisl/sci_sl.h \
     scisl/sci_sl_file.h \
     scisl/sci_sl_file_visitor_adaptor.h \
@@ -94,6 +100,7 @@ FORMS += \
     library_widget.ui \
     scigui/folder/sci_ui_add_item_dialog.ui \
     scigui/folder/sci_ui_folder_edit_widget.ui \
+    scigui/lib_buffer/sci_ui_total_library_widget.ui \
     scigui/new_library/sci_ui_open_library_dialog.ui \
     scigui/pdf_paper/sci_pdf_paper_widget.ui \
     scigui/pdf_paper/sci_pdf_reader.ui \

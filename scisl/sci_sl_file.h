@@ -13,9 +13,9 @@ class sci_sl_file
 public:
     sci_sl_file();
 
-    virtual char* write()=0;
+    virtual void write(char* path)=0;
 
-    virtual void read(char*)=0;
+    virtual void read(char* path)=0;
 
     virtual int type()=0;
 

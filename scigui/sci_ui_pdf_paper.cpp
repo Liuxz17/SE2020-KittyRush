@@ -19,7 +19,7 @@ QMenu* sci_ui_pdf_paper::context_menu(QWidget* parent) {
     QMenu *qMenu = new QMenu(parent);
 
     QAction* exampleAction = new QAction("&Example");
-    connect(exampleAction, SIGNAL(triggered()), this, SLOT(example()));
+    //connect(exampleAction, SIGNAL(triggered()), this, SLOT(example()));
 
     qMenu->addAction(exampleAction);
 

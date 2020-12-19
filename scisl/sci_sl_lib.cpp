@@ -38,7 +38,10 @@ void extend(scicore::sci_file* root,QJsonObject* obj){
     (*obj)["path"] = file->path();
     (*obj)["desc"] = file->desc();
 
+    file->write(file->path());
+
     delete file;
+
     QJsonArray child_arr;
     for(int i = 0; i<root->child_count(); i++){
         QJsonObject* child_obj = new QJsonObject;
@@ -53,18 +56,18 @@ void extend(scicore::sci_file* root,QJsonObject* obj){
 
 void save(scicore::sci_file* root,std::string path)
 {
-    QFile file(QString::fromStdString(path));
-    if(!file.open(QIODevice::WriteOnly)) {
-        qDebug() << "File open failed!";
-    } else {
-        qDebug() <<"File open successfully!";
-    }
-
     QJsonObject obj;
     extend(root,&obj);
 
     QJsonDocument jdoc;
     jdoc.setObject(obj);
+
+    QFile file(QString::fromStdString(path));
+    if(!file.open(QIODevice::WriteOnly)) {
+        qDebug() << "File open failed!"<<QString::fromStdString(path);
+    } else {
+        qDebug() <<"File open successfully!"<<QString::fromStdString(path);
+    }
     file.write(jdoc.toJson(QJsonDocument::Indented)); //Indented:表示自动添加/n回车符
     file.close();
 }

@@ -12,10 +12,12 @@
 #include <QPushButton>
 #include <QListView>
 
+#include "scicore/sci_pdf_paper.h"
+
 class sci_pdf_detail_widget : public QWidget {
     Q_OBJECT
 public:
-    explicit sci_pdf_detail_widget(QWidget *parent = 0);
+    explicit sci_pdf_detail_widget(scicore::sci_pdf_paper* paper, QWidget *parent = 0);
 
     QPushButton *detailButton;
     QPushButton *tagButton;
@@ -40,6 +42,8 @@ public slots:
 
 private:
     void setButtonStyleSheet(QPushButton*);
+
+    scicore::sci_pdf_paper* _paper;
 };
 
 #endif // DETAILWIDGET_H

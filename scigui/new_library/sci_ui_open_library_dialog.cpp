@@ -26,7 +26,10 @@ sci_ui_open_library_dialog::~sci_ui_open_library_dialog()
 
 void scigui::sci_ui_open_library_dialog::on_pushButton_browse_clicked()
 {
-    _file_path = QFileDialog::getExistingDirectory(NULL,"选择路径",".")+"/";
+    QString path = QFileDialog::getExistingDirectory(NULL,"选择路径",".")+"/";
+    if(path.isEmpty())
+        return;
+    _file_path = path;
     ui->textEdit_library_path->setText(_file_path+ui->textEdit_library_name->toPlainText()+".sclb");
 }
 

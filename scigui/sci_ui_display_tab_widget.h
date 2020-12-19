@@ -3,13 +3,15 @@
 
 #include <QTabWidget>
 
-class sci_library_display_widget: public QTabWidget
+namespace scigui {
+
+class sci_ui_display_tab_widget: public QTabWidget
 {
     Q_OBJECT
 
 public:
-    explicit sci_library_display_widget(QWidget *parent = nullptr);
-    ~sci_library_display_widget();
+    explicit sci_ui_display_tab_widget(QWidget *parent = nullptr);
+    ~sci_ui_display_tab_widget();
 
 
 public slots:
@@ -18,6 +20,16 @@ public slots:
      * @param index
      */
     void close_page(int index);
+
+    /**
+     * @brief 展示窗口
+     */
+    void add_page(QWidget* widget, QString title);
 };
+
+
+}
+
+
 
 #endif // SCI_LIBRARY_DISPLAY_WIDGET_H

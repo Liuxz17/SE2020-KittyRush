@@ -12,7 +12,7 @@ sci_pdf_paper_widget::sci_pdf_paper_widget(scicore::sci_pdf_paper* paper,QWidget
 
     this->_pdf_reader = new sci_pdf_reader(QString::fromStdString(paper->get_path()),this);
 
-    this->_detail_widget = new sci_pdf_detail_widget(this);
+    this->_detail_widget = new sci_pdf_detail_widget(paper,this);
 
     this->_splitter = new QSplitter(this);
     _splitter->setStyleSheet("QSplitter:handle{background-color:grey}");

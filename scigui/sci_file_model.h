@@ -80,7 +80,15 @@ public:
      */
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
 
+    /**
+     * @brief 清空模型内所有文件，TODO未验证
+     */
+    void clear();
 
+    /**
+     * @brief 设置根节点root
+     * @param root
+     */
     void set_root(scicore::sci_file *root) override;
     /**
      * @brief 在row行处插入file文件
@@ -131,6 +139,11 @@ public:
      */
     scicore::sci_file * file_from_index(const QModelIndex &index) const;
 
+    /**
+     * @brief 获得file的ModelIndex
+     * @param file：文件指针
+     * @return
+     */
     QModelIndex index_of(scicore::sci_file* file);
 };
 

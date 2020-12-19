@@ -1,6 +1,6 @@
 #include "sci_pdf_detail_widget.h"
 
-sci_pdf_detail_widget::sci_pdf_detail_widget(QWidget *parent) : QWidget(parent) {
+sci_pdf_detail_widget::sci_pdf_detail_widget(scicore::sci_pdf_paper* paper,QWidget *parent) : QWidget(parent),_paper(paper) {
     int detailItemNum = 10;
     QString detailItem[] = {"题目", "作者", "关键词", "来源", "中图分类号", "日期", "被引", "下载", "文章编号", "摘要"};
 
