@@ -219,8 +219,6 @@ void library_widget::load_lib(QString path){
     _lib.load();
 
     _library_buffer.add_library(path.toStdString());
-    _library_buffer.save();
-    _library_buffer.set_lib_menu();
 
 
 }
@@ -272,6 +270,8 @@ void library_widget::localImportDocument() {
 
         scicore::sci_pdf_paper* paper = new scicore::sci_pdf_paper(dir.dirName().toStdString(),parent);
         paper->set_path(path.toStdString());
+
+
         model->add_file(paper,parent);
     }
 }
@@ -294,7 +294,7 @@ void library_widget::save() {
     else{
         _lib.save();
     }
-
+    _library_buffer.add_library(_lib.get_path());
     this->setWindowTitle("图书馆："+QString::fromStdString(_lib.get_path()));
 }
 

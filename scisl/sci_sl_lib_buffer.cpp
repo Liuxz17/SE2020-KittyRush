@@ -18,9 +18,9 @@ sci_sl_lib_buffer::~sci_sl_lib_buffer(){
 }
 
 bool sci_sl_lib_buffer::add_library(std::string path, int index){
-    int true_index = index>=0?index:_name_list.size()+index;
+    int true_index = index>=0?index:_name_list.size()+index+1;
     //检查合法性
-    if(true_index<0||true_index>=_name_list.size()){
+    if(true_index<0||true_index>_name_list.size()){
         return false;
     }
     //检查是否重复
@@ -88,11 +88,11 @@ void sci_sl_lib_buffer::load(){
     //读取文件
     QFile file(QString::fromStdString(_path));
     if(!file.open(QIODevice::ReadOnly)) {
-        QMessageBox::critical(NULL,"错误","错误：读取失败，图书馆列表文件失效！路径："+QString::fromStdString(_path));
+        //QMessageBox::critical(NULL,"错误","错误：读取失败，图书馆列表文件失效！路径："+QString::fromStdString(_path));
         //qDebug() << "File open failed! path: "<<QString::fromStdString(_path);
         return;
     } else {
-        qDebug() <<"File open successfully!";
+        qDebug() <<"File open successfully!"<<QString::fromStdString(_path);
     }
     QJsonParseError *error=new QJsonParseError;
     QJsonDocument jdc=QJsonDocument::fromJson(file.readAll(),error);

@@ -37,7 +37,7 @@ void sci_ui_lib_buffer::set_lib_menu(){
     }
 
     //设置历史图书馆条目
-    for(int i=0; i<get_library_count(); i++){
+    for(int i=get_library_count()-1; i>=0; i--){
         QAction* select_action = new QAction(QString::fromStdString(get_library_path(i)),_menu);
         _menu->addAction(select_action);
         _mapper->setMapping(select_action, i);
@@ -71,6 +71,12 @@ void sci_ui_lib_buffer::clear_menu(){
     clear_all();
     save();
     set_lib_menu();
+}
+
+bool sci_ui_lib_buffer::add_library(std::string path, int index){
+    scisl::sci_sl_lib_buffer::add_library(path,index);
+    set_lib_menu();
+    save();
 }
 
 void sci_ui_lib_buffer::select_library(int index){

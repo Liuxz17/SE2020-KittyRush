@@ -110,9 +110,9 @@ public:
         return 2;
     }
 
-    char* path(){
-        return (char*)std::string(_paper->get_name()+".pp").c_str();
-    }
+    //char* path(){
+    //    return (char*)std::string("data/pp/"+_paper->get_name()+".pp").c_str();
+    //}
 
     char* desc(){
         return (char*)_paper->get_path().c_str();

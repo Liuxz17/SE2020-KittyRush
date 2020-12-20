@@ -54,6 +54,14 @@ public slots:
     void clear_menu();
 
     /**
+     * @brief 向储存中添加图书馆路径
+     * @param path：路径
+     * @param index：添加位置，如果为负数，则为从后往前计数
+     * @return 是否成功
+     */
+    bool add_library(std::string path, int index = -1);
+
+    /**
      * @brief 选中某个菜单，将发送library_selected(QString)信号
      */
     void select_library(int);

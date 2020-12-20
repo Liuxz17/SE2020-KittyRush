@@ -12,15 +12,34 @@ class sci_sl_file
 {
 public:
     sci_sl_file();
-
+    /**
+     * @brief 用于向信息存储文件中写入信息的函数
+     * @param path
+     */
     virtual void write(char* path)=0;
 
+    /**
+     * @brief 用于从信息存储文件中读入信息的函数
+     * @param path
+     */
     virtual void read(char* path)=0;
 
+    /**
+     * @brief 用于返回文件类型的函数，1为folder，2为pdf_paper
+     * @return
+     */
     virtual int type()=0;
 
-    virtual char* path()=0;
+    /**
+     * @brief 用于生成信息存储文件路径的函数，该路径将保存在library中
+     * @return
+     */
+    virtual char* path();
 
+    /**
+     * @brief 用于生成文件简要描述的函数，该描述将保存在library中
+     * @return
+     */
     virtual char* desc()=0;
 protected:
 };
