@@ -42,7 +42,9 @@ QModelIndex sci_file_model::index(int row, int column, const QModelIndex &parent
     if (parent.isValid() && column != 0)
         return QModelIndex();
     scicore::sci_file *parent_file = file_from_index(parent);
-
+    if(!parent_file){
+        return QModelIndex();
+    }
     scicore::sci_file *child_file = parent_file->get_child(row);
 
     if (child_file)
