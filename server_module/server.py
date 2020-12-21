@@ -1,4 +1,5 @@
 import socket  # 导入 socket 模块
+import pymysql
 from globals import * # 格式规定作为全局变量
 class my_server():
     def __init__(self, ip, port=8888): #实例化时需给定IP地址，对服务器端可给定为本机地址并设置固定ip地址
@@ -117,8 +118,26 @@ class my_server():
                 return -1
         return 0
 
+def send_to_database(info):    #提交论文信息至数据库
+    cursor = db.cursor()  # 获取数据库操作游标
+    sql = "insert into paperinfo(db_paper, cite_number, title, author1, author2, author3, author4,  \
+        author5, author6, keyword1, keyword2, keyword3, source, date, reference1, reference2,  \
+        reference3, reference4, reference5, reference6, reference7, reference8, reference9,  \
+        reference10, doi, abstract )VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s', \
+        '%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s') " % \
+          (info.content['database'], info.content['cite_number'], info.content['title'], info.content['author'][0], \
+           info.content['author'][1], info.content['author'][2], info.content['author'][3], info.content['author'][4], \
+           info.content['author'][5], info.content['key_word'][0], info.content['key_word'][1], info.content['key_word'][2], \
+           info.content['origin'], info.content['date'], info.content['ref'][0], info.content['ref'][1], \
+           info.content['ref'][2], info.content['ref'][3], info.content['ref'][4], info.content['ref'][5], \
+           info.content['ref'][6], info.content['ref'][7], info.content['ref'][8], info.content['ref'][9], \
+           info.content['doi'], info.content['abstract'])
+    cursor.execute(sql)  # 执行sql语句
+    db.commit()  # 提交到数据库执行
+    db.close()  # 关闭数据库连接
 
 if __name__ == '__main__' :
+    db = pymysql.connect("localhost", "root", "123456", "se", charset='utf8')    #连接数据库
     Server = my_server(ip=socket.gethostbyname(socket.gethostname()))   #使用本机ip地址
     while True:
         Server.conn()  # 等待客户端连接，默认最大数为5
@@ -131,6 +150,7 @@ if __name__ == '__main__' :
                 msg = Server.recv()
                 if(msg=='finish'):
                     print('receive OK!')
+                    send_to_database(Server.info)
                     continue
                 #如果是搜索指令则搜索并回传推荐信息，否则直接断开
                 elif(msg=='quest_info'):
