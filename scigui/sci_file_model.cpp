@@ -16,6 +16,7 @@ sci_file_model::~sci_file_model()
 
 
 scicore::sci_file* sci_file_model::file_from_index(const QModelIndex &index) const{
+
     if (index.isValid()) {
         scicore::sci_file* file = static_cast<scicore::sci_file *>(index.internalPointer());
         if(file)
@@ -42,6 +43,7 @@ QModelIndex sci_file_model::index(int row, int column, const QModelIndex &parent
     if (parent.isValid() && column != 0)
         return QModelIndex();
     scicore::sci_file *parent_file = file_from_index(parent);
+    qDebug()<<"ss";
     if(!parent_file){
         return QModelIndex();
     }
