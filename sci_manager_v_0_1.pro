@@ -47,6 +47,8 @@ SOURCES += \
     scigui/sci_ui_folder.cpp \
     scigui/sci_ui_lib_buffer.cpp \
     scigui/sci_ui_library_widget.cpp \
+    scigui/sci_ui_local_search_result_dialog.cpp \
+    scigui/sci_ui_local_search_widget.cpp \
     scigui/sci_ui_pdf_paper.cpp \
     scigui/sci_ui_display_tab_widget.cpp \
     scisl/sci_sl.cpp \
@@ -84,6 +86,8 @@ HEADERS += \
     scigui/sci_ui_folder.h \
     scigui/sci_ui_lib_buffer.h \
     scigui/sci_ui_library_widget.h \
+    scigui/sci_ui_local_search_result_dialog.h \
+    scigui/sci_ui_local_search_widget.h \
     scigui/sci_ui_pdf_paper.h \
     scigui/sci_ui_display_tab_widget.h \
     scisl/sci_sl.h \
@@ -105,6 +109,8 @@ FORMS += \
     scigui/pdf_paper/sci_pdf_paper_widget.ui \
     scigui/pdf_paper/sci_pdf_reader.ui \
     scigui/sci_ui_library_widget.ui \
+    scigui/sci_ui_local_search_result_dialog.ui \
+    scigui/sci_ui_local_search_widget.ui
 
 
 # Default rules for deployment.

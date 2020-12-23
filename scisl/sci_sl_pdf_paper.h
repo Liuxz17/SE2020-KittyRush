@@ -24,10 +24,10 @@ public:
         QFile file(QString::fromStdString(path));
 
         if(!file.open(QIODevice::WriteOnly)) {
-            qDebug() << "File open failed! path: "<<QString::fromStdString(path);
+            qDebug() << "File open failed! save path: "<<QString(path);
             return;
         } else {
-            qDebug() <<"File open successfully!"<<QString::fromStdString(path);
+            qDebug() <<"File open successfully! save path"<<QString(path);
         }
 
         QJsonObject obj;

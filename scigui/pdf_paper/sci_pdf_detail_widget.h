@@ -33,6 +33,9 @@ public:
     QListView *webView;
     QStandardItemModel *webModel;
 
+    QStringList detailItem;
+    QStringList detialItemData;
+
 signals:
 
 public slots:
@@ -40,6 +43,7 @@ public slots:
     void showTag();
     void showWeb();
 
+    void change_info(QStandardItem*);
 private:
     void setButtonStyleSheet(QPushButton*);
 

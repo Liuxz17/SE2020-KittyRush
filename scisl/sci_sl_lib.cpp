@@ -32,15 +32,15 @@ void sci_sl_lib::load(){
 
 void extend(scicore::sci_file* root,QJsonObject* obj){
     (*obj)["name"] = QString::fromStdString(root->get_name());
-    sci_sl_file* file = sl_of_file.get_sl_file(root);
+    sci_sl_file* file = sci_sl_file_visitor_adaptor::get_instance()->get_sl_file(root);
 
     (*obj)["type"] = file->type();
     (*obj)["path"] = file->path();
     (*obj)["desc"] = file->desc();
 
-    file->write(file->path());
+    file->write((char*)file->path());
 
-    delete file;
+    //delete file;
 
     QJsonArray child_arr;
     for(int i = 0; i<root->child_count(); i++){
@@ -86,17 +86,21 @@ void expand(scicore::sci_file* file, QJsonObject* obj){
         scicore::sci_file* child_file;
         if((*child)["type"] == 1){
             child_file = new scicore::sci_folder((*child)["name"].toString().toStdString(),file);
-            sci_sl_file* file = sl_of_file.get_sl_file(child_file);
+            sci_sl_file* file = sci_sl_file_visitor_adaptor::get_instance()->get_sl_file(child_file);
+            file->set_path((*child)["path"].toString().toStdString());
 
-            file->read((char*)(*child)["path"].toString().toStdString().c_str());
+            file->read((char*)file->path());
         }
         else if((*child)["type"] == 2){
             child_file = new scicore::sci_pdf_paper((*child)["name"].toString().toStdString(),
                     (*child)["desc"].toString().toStdString(),file);
 
-            sci_sl_file* file = sl_of_file.get_sl_file(child_file);
+            sci_sl_file* file = sci_sl_file_visitor_adaptor::get_instance()->get_sl_file(child_file);
+            file->set_path((*child)["path"].toString().toStdString());
+            file->read((char*)file->path());
+        }
+        else{
 
-            file->read((char*)(*child)["path"].toString().toStdString().c_str());
         }
         //还有其他文件
 
@@ -127,6 +131,10 @@ scicore::sci_file* load(std::string path){
     QJsonObject obj = jdc.object();        //获取对象
 
     scicore::sci_file* root = new scicore::sci_folder(obj["name"].toString().toStdString());
+    sci_sl_file* sl_root = sci_sl_file_visitor_adaptor::get_instance()->get_sl_file(root);
+    sl_root->set_path(obj["path"].toString().toStdString());
+
+    sl_root->read((char*)sl_root->path());
 
     expand(root,&obj);
 

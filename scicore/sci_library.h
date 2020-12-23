@@ -2,6 +2,8 @@
 #define SCI_LIBRARY_H
 
 #include "sci_file.h"
+#include <vector>
+
 
 namespace scicore {
 
@@ -25,7 +27,20 @@ public:
      */
     virtual sci_file* get_root();
 
-    long long total_file(sci_file* root);
+    /**
+     * @brief 在root文件下按照名称name查找
+     * @param name
+     * @param root
+     * @return
+     */
+    virtual std::vector<sci_file*> search_on_name(std::string name,sci_file* root);
+
+    /**
+     * @brief 获取以root为根节点下的所有子文件数
+     * @param root
+     * @return
+     */
+    static long long total_file(sci_file* root);
 protected:
     sci_file* _root;
 };

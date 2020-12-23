@@ -7,10 +7,14 @@ namespace scigui {
 sci_file_model::sci_file_model(QObject *parent):QAbstractItemModel(parent)
 {
     _root = NULL;
+
+    stack_size = 3;
+    stack_ptr = 0;
 }
 
 sci_file_model::~sci_file_model()
 {
+    _root->delete_self();
     delete _root;
 }
 
@@ -43,7 +47,7 @@ QModelIndex sci_file_model::index(int row, int column, const QModelIndex &parent
     if (parent.isValid() && column != 0)
         return QModelIndex();
     scicore::sci_file *parent_file = file_from_index(parent);
-    qDebug()<<"ss";
+    //qDebug()<<"ss";
     if(!parent_file){
         return QModelIndex();
     }
@@ -158,54 +162,63 @@ void sci_file_model::clear(){
         delete _root;
         _root = NULL;
     }
+    emit layoutChanged();
 
 }
 
 void sci_file_model::set_root(scicore::sci_file *root){
-    clear();
+    //clear();
     this->_root = root;
-    qDebug()<<"virtual set root";
-    emit dataChanged(index_of(root),index_of(root),{Qt::DisplayRole, Qt::EditRole});
+    qDebug()<<"Model Root Set!";
+    //emit dataChanged(index_of(root),index_of(root),{Qt::DisplayRole, Qt::EditRole});
     emit layoutChanged();
 }
 
-bool sci_file_model::insert_file(int row, scicore::sci_file* file, scicore::sci_file *parent) {
-    return insert_file(row,file,index_of(parent));
-}
-
-bool sci_file_model::insert_file(int row, scicore::sci_file* file, const QModelIndex &parent) {
-    if(rowCount(parent)<row||0>row){
+bool sci_file_model::insert_file(int row, scicore::sci_file* file, scicore::sci_file *parent,bool into_stack) {
+    if(!parent){
         return false;
     }
+    if(!file){
+        return false;
+    }
+    emit layoutAboutToBeChanged();
+    parent->insert_file(file,row);
+    if(into_stack){
+        _push(row,file,parent,INSERT);
+    }
+    emit layoutChanged();
 
-    beginInsertRows(parent, row, row);
-
-    scicore::sci_file* parent_file = file_from_index(parent);
-    parent_file->insert_file(file,row);
-
-    endInsertRows();
     return true;
 }
 
-scicore::sci_file* sci_file_model::remove_file(int row,const QModelIndex &parent){
-    if(rowCount(parent)<=row||0>row){
-        return NULL;
-    }
-    beginRemoveRows(parent, row, row);
+bool sci_file_model::insert_file(int row, scicore::sci_file* file, const QModelIndex &parent) {
 
     scicore::sci_file* parent_file = file_from_index(parent);
-    scicore::sci_file* file = parent_file->remove_file(row);
 
-    endRemoveRows();
+    return insert_file(row,file,parent_file);
+}
+
+scicore::sci_file* sci_file_model::remove_file(int row,const QModelIndex &parent){
+    scicore::sci_file* parent_file = file_from_index(parent);
+
+    scicore::sci_file* file = remove_file(row,parent_file);
 
     return file;
 }
-scicore::sci_file* sci_file_model::remove_file(int row, scicore::sci_file *parent){
+scicore::sci_file* sci_file_model::remove_file(int row, scicore::sci_file *parent, bool into_stack){
+    if(!parent){
+        return NULL;
+    }
     if(parent->child_count()<=row||0>row){
         return NULL;
     }
 
+
+    emit layoutAboutToBeChanged();
     scicore::sci_file* file = parent->remove_file(row);
+    if(into_stack){
+       _push(row,file,parent,REMOVE);
+    }
 
     emit layoutChanged();
 
@@ -213,9 +226,77 @@ scicore::sci_file* sci_file_model::remove_file(int row, scicore::sci_file *paren
 }
 
 bool sci_file_model::add_file(scicore::sci_file* file, scicore::sci_file* parent){
+    return insert_file(parent->child_count(),file,parent);
+}
 
-    insert_file(parent->child_count(),file,index_of(parent));
-    return true;
+void sci_file_model::_push(int row, scicore::sci_file *file, scicore::sci_file *parent, file_operation operation){
+    if(stack_ptr<_file_stack.size()){
+        //如果已经undo过，那么就把undo之后的记录全删了
+        for(int i = stack_ptr; i <_file_stack.size() ; i++){
+            _file_stack.removeAt(i);
+        }
+
+    }
+
+
+    if(_file_stack.size()>=stack_size){
+        _file_stack.pop_front();
+        _parent_stack.pop_front();
+        _row_stack.pop_front();
+        _operation_stack.pop_front();
+        stack_ptr--;
+    }
+
+    _file_stack.push_back(file);
+    _parent_stack.push_back(parent);
+    _row_stack.push_back(row);
+    _operation_stack.push_back(operation);
+    stack_ptr++;
+}
+
+void sci_file_model::undo(){
+    if(stack_ptr<=0){
+        return;
+    }
+    stack_ptr--;
+    scicore::sci_file* file= *(_file_stack.begin()+stack_ptr);
+    scicore::sci_file* parent= *(_parent_stack.begin()+stack_ptr);
+    int row = *(_row_stack.begin()+stack_ptr);
+    file_operation operation = *(_operation_stack.begin()+stack_ptr);
+
+    if(operation == INSERT){
+        //如果操作为添加文件，那么移除该文件
+        remove_file(row,parent,false);
+
+    }
+    else if(operation == REMOVE){
+        //如果操作为删除文件，那么重新添加该文件
+        insert_file(row,file,parent,false);
+
+    }
+
+}
+
+void sci_file_model::redo(){
+    if(stack_ptr>=_file_stack.size()){
+        return;
+    }
+    scicore::sci_file* file= *(_file_stack.begin()+stack_ptr);
+    scicore::sci_file* parent= *(_parent_stack.begin()+stack_ptr);
+    int row = *(_row_stack.begin()+stack_ptr);
+    file_operation operation = *(_operation_stack.begin()+stack_ptr);
+
+    if(operation == INSERT){
+        //如果操作为添加文件，那么移除该文件
+        insert_file(row,file,parent,false);
+
+    }
+    else if(operation == REMOVE){
+        //如果操作为删除文件，那么重新添加该文件
+        remove_file(row,parent,false);
+
+    }
+    stack_ptr++;
 }
 
 }

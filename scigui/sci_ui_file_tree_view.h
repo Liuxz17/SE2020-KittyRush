@@ -21,6 +21,7 @@ public slots:
 
     void show_customed_menu(const QPoint &);
 
+    void select_file(scicore::sci_file*);
 signals:
     void request_show_widget(QWidget* widget, QString title);
 

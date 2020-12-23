@@ -14,6 +14,7 @@
 #include "scigui/sci_ui_file.h"
 #include "scigui/sci_ui_lib_buffer.h"
 #include "scigui/sci_ui_file_tree_view.h"
+#include "scigui/sci_ui_local_search_widget.h"
 
 #include "scisl/sci_sl_lib.h"
 

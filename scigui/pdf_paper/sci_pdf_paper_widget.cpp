@@ -35,3 +35,4 @@ sci_pdf_paper_widget::~sci_pdf_paper_widget()
 {
     delete ui;
 }
+

@@ -31,16 +31,15 @@ public:
     }
 
     void read(char* path){
-
     }
 
     int type(){
         return 1;
     }
 
-    char* path(){
-        return "none";
-    }
+    //const char* path(){
+    //    return "none";
+    //}
 
     char* desc(){
         return "no desc";

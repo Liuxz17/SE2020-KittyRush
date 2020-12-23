@@ -32,6 +32,7 @@ private:
     QSplitter* _splitter;
 
     QVBoxLayout* _layout;
+
 };
 
 #endif // SCI_PDF_PAPER_WIDGET_H

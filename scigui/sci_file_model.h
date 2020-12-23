@@ -5,10 +5,16 @@
 #include <QModelIndex>
 #include <QVariant>
 
+#include <QQueue>
 
 #include "../scicore/sci_library.h"
 
 namespace scigui{
+
+enum file_operation{
+    INSERT,
+    REMOVE
+};
 
 class sci_file_model:public QAbstractItemModel,public scicore::sci_library
 {
@@ -106,7 +112,7 @@ public:
      * @param parent：父节点
      * @return 是否成功
      */
-    bool insert_file(int row, scicore::sci_file* file, scicore::sci_file* parent);
+    bool insert_file(int row, scicore::sci_file* file, scicore::sci_file* parent, bool into_stack = true);
 
     /**
      * @brief 在尾部插入file文件
@@ -130,7 +136,7 @@ public:
      * @param parent：父节点
      * @return 被移除文件指针
      */
-    scicore::sci_file* remove_file(int row, scicore::sci_file* parent);
+    scicore::sci_file* remove_file(int row, scicore::sci_file* parent, bool into_stack = true);
 
     /**
      * @brief 获取索引index处的文件指针
@@ -145,6 +151,21 @@ public:
      * @return
      */
     QModelIndex index_of(scicore::sci_file* file);
+
+    void undo();
+
+    void redo();
+private:
+
+    void _push(int row, scicore::sci_file* file, scicore::sci_file* parent, file_operation operation);
+    void _pop();
+
+    int stack_size;
+    int stack_ptr;//指向下一个被push入的index
+    QQueue<scicore::sci_file*> _file_stack;
+    QQueue<scicore::sci_file*> _parent_stack;
+    QQueue<int> _row_stack;
+    QQueue<file_operation> _operation_stack;
 };
 
 }

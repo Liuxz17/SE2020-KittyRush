@@ -1,6 +1,8 @@
 #ifndef SCI_SL_FILE_VISITOR_ADAPTOR_H
 #define SCI_SL_FILE_VISITOR_ADAPTOR_H
 
+#include <QMap>
+
 #include "scicore/sci_file_visitor.h"
 #include "sci_sl_file.h"
 
@@ -20,16 +22,23 @@ public:
 
     sci_sl_file* get_sl_file(scicore::sci_file* file);
 
+
+    static sci_sl_file_visitor_adaptor* get_instance();
+    /**
+     * @brief 伪函数，用于获得file的对应ui_file指针
+     */
+    //static  sl_of_file;
+
 private:
+    QMap<scicore::sci_file*,sci_sl_file*> sl_map;
+
     sci_sl_file* _file;
+    static sci_sl_file_visitor_adaptor* sl_of_file;
     //scisl::sci_sl_file* _file;
 };
 
 
-/**
- * @brief 伪函数，用于获得file的对应ui_file指针
- */
-static sci_sl_file_visitor_adaptor sl_of_file;
+
 
 }
 

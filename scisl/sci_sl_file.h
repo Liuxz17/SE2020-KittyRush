@@ -34,7 +34,12 @@ public:
      * @brief 用于生成信息存储文件路径的函数，该路径将保存在library中
      * @return
      */
-    virtual char* path();
+    virtual const char* path();
+
+    /**
+     * @brief 设置路径
+     */
+    void set_path(std::string );
 
     /**
      * @brief 用于生成文件简要描述的函数，该描述将保存在library中
@@ -42,6 +47,7 @@ public:
      */
     virtual char* desc()=0;
 protected:
+     std::string _savepath;
 };
 
 }

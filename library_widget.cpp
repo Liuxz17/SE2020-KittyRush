@@ -2,6 +2,7 @@
 
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QDate>
 
 #include "ui_library_widget.h"
 #include "scicore/sci_folder.h"
@@ -270,8 +271,10 @@ void library_widget::localImportDocument() {
 
         scicore::sci_pdf_paper* paper = new scicore::sci_pdf_paper(dir.dirName().toStdString(),parent);
         paper->set_path(path.toStdString());
-
-
+        //以下为测试
+        paper->title = "养猪学概论";
+        paper->date = QDate::currentDate().toString("yyyy-MM-dd").toStdString();
+        paper->authors.push_back("clearlove7");paper->authors.push_back("厂长");
         model->add_file(paper,parent);
     }
 }
@@ -306,19 +309,23 @@ void library_widget::edit() {
 
 void library_widget::undo() {
     qDebug("undo");
+    model->undo();
 }
 
 void library_widget::redo() {
     qDebug("redo");
+    model->redo();
 }
 
 void library_widget::_delete() {
     qDebug("_delete");
 }
 
-
 void library_widget::search() {
     qDebug("search");
+    scigui::sci_ui_local_search_widget * widget = new scigui::sci_ui_local_search_widget(model);
+    connect(widget,SIGNAL(file_selected(scicore::sci_file*)),_tree_view,SLOT(select_file(scicore::sci_file*)));
+    widget->show();
 }
 
 void library_widget::filter() {

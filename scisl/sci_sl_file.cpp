@@ -12,13 +12,23 @@ namespace scisl {
 
 sci_sl_file::sci_sl_file()
 {
-
+    _savepath = "";
 }
 
-char* sci_sl_file::path(){
-    QDateTime current_date_time =QDateTime::currentDateTime();
-    QString current_date =current_date_time.toString("yyyyMMdd_hhmmss_zzzddd") + ".info";
-    return (char*)current_date.toStdString().c_str();
+int indepandent_id = 0;
+
+const char* sci_sl_file::path(){
+    if(_savepath.empty()){
+        QDateTime current_date_time =QDateTime::currentDateTime();
+        QString current_date =current_date_time.toString("yyyyMMddhhmmsszzz") + QString::number(indepandent_id++) + ".info";
+        _savepath = current_date.toStdString();
+    }
+
+    return _savepath.c_str();
+}
+
+void sci_sl_file::set_path(std::string path){
+    _savepath = (char*)path.c_str();
 }
 
 }

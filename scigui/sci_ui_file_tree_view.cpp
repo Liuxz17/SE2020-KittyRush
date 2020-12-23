@@ -57,5 +57,10 @@ void sci_ui_file_tree_view::show_customed_menu(const QPoint & pos){
     }
 }
 
+void sci_ui_file_tree_view::select_file(scicore::sci_file* file){
+    QModelIndex index = _model->index_of(file);
+    this->setCurrentIndex(index);
+}
+
 }
 
