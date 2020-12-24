@@ -274,7 +274,6 @@ void sci_pdf_detail_widget::change_info(QStandardItem* item){
         break;
     }
 
-
     scisl::sci_sl_file* sl_file = scisl::sci_sl_file_visitor_adaptor::get_instance()->get_sl_file(_paper);
     sl_file->write((char*)sl_file->path());
 }
