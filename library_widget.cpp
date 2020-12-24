@@ -92,6 +92,7 @@ void library_widget::set_up_menu_bar(){
 
     QAction* saveAction = new QAction(tr("保存"));
     saveAction->setShortcut(Qt::CTRL | Qt::Key_S);
+    saveAction->setIcon(QIcon(":/gfx/icon/file_icon/save.png"));
     connect(saveAction, SIGNAL(triggered()), this, SLOT(save()));
     fileMenu->addAction(saveAction);
     //最近浏览的图书馆菜单
@@ -155,11 +156,13 @@ void library_widget::set_up_menu_bar(){
 
     QAction* newWebDatabaseAction = new QAction(tr("创建关系网络"));
     newWebDatabaseAction->setShortcut(Qt::CTRL | Qt::Key_R);
+    newWebDatabaseAction->setIcon(QIcon(":/gfx/icon/file_icon/web.png"));
     connect(newWebDatabaseAction, SIGNAL(triggered()), this, SLOT(newWebDatabase()));
     webMenu->addAction(newWebDatabaseAction);
 
     QAction* openWebDatabaseAction = new QAction(tr("打开云数据库"));
     openWebDatabaseAction->setShortcut(Qt::CTRL | Qt::Key_T);
+    openWebDatabaseAction->setIcon(QIcon(":/gfx/icon/file_icon/server.png"));
     connect(openWebDatabaseAction, SIGNAL(triggered()), this, SLOT(openWebDatabase()));
     webMenu->addAction(openWebDatabaseAction);
 
@@ -173,6 +176,7 @@ void library_widget::set_up_menu_bar(){
     sciManagerMenu->addAction(aboutSciManagerAction);
 
     QAction* instructionAction = new QAction(tr("使用说明书"));
+    instructionAction->setIcon(QIcon(":/gfx/icon/file_icon/notepad.png"));
     connect(instructionAction, SIGNAL(triggered()), this, SLOT(instruction()));
     sciManagerMenu->addAction(instructionAction);
 
