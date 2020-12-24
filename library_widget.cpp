@@ -56,11 +56,13 @@ void library_widget::set_up_menu_bar(){
 
     QAction* newLibAction = new QAction(tr("新建图书馆"));
     newLibAction->setShortcut(Qt::CTRL | Qt::Key_N);
+    newLibAction->setIcon(QIcon(":/gfx/icon/file_icon/Folder_Attempt_Generic.png"));
     connect(newLibAction, SIGNAL(triggered()), this, SLOT(newLibrary()));
     fileMenu->addAction(newLibAction);
 
     QAction* openLibAction = new QAction(tr("打开图书馆"));
     openLibAction->setShortcut(Qt::CTRL | Qt::Key_O);
+    openLibAction->setIcon(QIcon(":/gfx/icon/file_icon/Folder_Attempt.png"));
     connect(openLibAction, SIGNAL(triggered()), this, SLOT(openLibrary()));
     fileMenu->addAction(openLibAction);
 
@@ -70,6 +72,7 @@ void library_widget::set_up_menu_bar(){
     fileMenu->addAction(parseDocumentAction);
 
     QMenu* importDocumentMenu = new QMenu(tr("导入文献"));
+    importDocumentMenu->setIcon(QIcon(":/gfx/icon/file_icon/pdf.png"));
     QAction* localImportAction = new QAction(tr("本地导入"));
     localImportAction->setShortcut(Qt::CTRL | Qt::Key_L);
     connect(localImportAction, SIGNAL(triggered()), this, SLOT(localImportDocument()));
@@ -104,11 +107,13 @@ void library_widget::set_up_menu_bar(){
 
     QAction* undoAction = new QAction(tr("撤销"));
     undoAction->setShortcut(Qt::CTRL | Qt::Key_Z);
+    undoAction->setIcon(QIcon(":/gfx/icon/file_icon/undo.png"));
     connect(undoAction, SIGNAL(triggered()), this, SLOT(undo()));
     editMenu->addAction(undoAction);
 
     QAction* redoAction = new QAction(tr("重做"));
     redoAction->setShortcut(Qt::CTRL | Qt::Key_Y);
+    redoAction->setIcon(QIcon(":/gfx/icon/file_icon/redo.png"));
     connect(redoAction, SIGNAL(triggered()), this, SLOT(redo()));
     editMenu->addAction(redoAction);
 
@@ -121,6 +126,7 @@ void library_widget::set_up_menu_bar(){
 
     QAction* deleteAction = new QAction(tr("删除"));
     deleteAction->setShortcut(Qt::CTRL | Qt::Key_D);
+    deleteAction->setIcon(QIcon(":/gfx/icon/file_icon/delete.png"));
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(_delete()));
     editMenu->addAction(deleteAction);
 
@@ -128,6 +134,7 @@ void library_widget::set_up_menu_bar(){
 
     QAction* searchAction = new QAction(tr("搜索"));
     searchAction->setShortcut(Qt::CTRL | Qt::Key_F);
+    searchAction->setIcon(QIcon(":/gfx/icon/search_icon/search.png"));
     connect(searchAction, SIGNAL(triggered()), this, SLOT(search()));
     editMenu->addAction(searchAction);
 
