@@ -84,7 +84,9 @@ sci_pdf_detail_widget::sci_pdf_detail_widget(scicore::sci_pdf_paper* paper,QWidg
         a->setEditable(false);
         a->setData(detailItem[i], Qt::ToolTipRole);
         detailTableModel->setItem(i, 0, a);
-        detailTableModel->setItem(i, 1, new QStandardItem(detialItemData[i]));
+        QStandardItem* b = new QStandardItem(detialItemData[i]);
+        b->setData(detialItemData[i], Qt::ToolTipRole);
+        detailTableModel->setItem(i, 1, b);
     }
     connect(detailTableModel,SIGNAL(itemChanged(QStandardItem *)),this,SLOT(change_info(QStandardItem*)));
 
