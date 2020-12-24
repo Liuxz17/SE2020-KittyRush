@@ -57,7 +57,8 @@ SOURCES += \
     scisl/sci_sl_folder.cpp \
     scisl/sci_sl_lib.cpp \
     scisl/sci_sl_lib_buffer.cpp \
-    scisl/sci_sl_pdf_paper.cpp
+    scisl/sci_sl_pdf_paper.cpp \
+    welcome_widget.cpp
 
 HEADERS += \
     empty_detail_widget.h \
@@ -96,7 +97,8 @@ HEADERS += \
     scisl/sci_sl_folder.h \
     scisl/sci_sl_lib.h \
     scisl/sci_sl_lib_buffer.h \
-    scisl/sci_sl_pdf_paper.h
+    scisl/sci_sl_pdf_paper.h \
+    welcome_widget.h
 
 FORMS += \
     display_widget.ui \
@@ -110,7 +112,8 @@ FORMS += \
     scigui/pdf_paper/sci_pdf_reader.ui \
     scigui/sci_ui_library_widget.ui \
     scigui/sci_ui_local_search_result_dialog.ui \
-    scigui/sci_ui_local_search_widget.ui
+    scigui/sci_ui_local_search_widget.ui \
+    welcome_widget.ui
 
 
 # Default rules for deployment.

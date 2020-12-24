@@ -8,8 +8,6 @@
 
 sci_pdf_detail_widget::sci_pdf_detail_widget(scicore::sci_pdf_paper* paper,QWidget *parent) : QWidget(parent),_paper(paper) {
 
-
-
     detailItem = QStringList{"题目", "作者", "关键词", "来源", "日期", "被引", "文章编号", "摘要"};
 
     detialItemData<<QString::fromStdString(_paper->title);
@@ -56,20 +54,12 @@ sci_pdf_detail_widget::sci_pdf_detail_widget(scicore::sci_pdf_paper* paper,QWidg
     rightButtonLayout->addStretch();
 
 
-    // detailTableHeaderLabel
-    /*detailTableHeaderLabel = new QLabel(tr("期刊"));
-    detailTableHeaderLabel->setAlignment(Qt::AlignCenter);
-    detailTableHeaderLabel->setFixedHeight(30);
-    detailTableHeaderLabel->setFont(detailFont);
-    detailTableHeaderLabel->setStyleSheet("background-color:white");
-    */
-
     // detailTableView
     detailTableView = new QTableView(this);
     QFont detailTableFont;
     detailTableFont.setPointSize(14);
     detailTableView->setFont(detailTableFont);
-    detailTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    detailTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
     // detailTableView->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     // detailTableView->setShowGrid(false);
     //detailTableView->setSelectionMode(QAbstractItemView::NoSelection);
@@ -82,7 +72,7 @@ sci_pdf_detail_widget::sci_pdf_detail_widget(scicore::sci_pdf_paper* paper,QWidg
 
     detailTableModel = new QStandardItemModel(detailTableView);
     detailTableModel->setColumnCount(2);
-    detailTableModel->setRowCount(30);
+    detailTableModel->setRowCount(41);
 
     detailTableView->setModel(detailTableModel);
 
@@ -92,6 +82,7 @@ sci_pdf_detail_widget::sci_pdf_detail_widget(scicore::sci_pdf_paper* paper,QWidg
         QStandardItem* a = new QStandardItem(detailItem[i]);
         a->setFont(f);
         a->setEditable(false);
+        a->setData(detailItem[i], Qt::ToolTipRole);
         detailTableModel->setItem(i, 0, a);
         detailTableModel->setItem(i, 1, new QStandardItem(detialItemData[i]));
     }
@@ -132,10 +123,9 @@ sci_pdf_detail_widget::sci_pdf_detail_widget(scicore::sci_pdf_paper* paper,QWidg
 
 
     QVBoxLayout* mainLayout = new QVBoxLayout;
-    mainLayout->setSpacing(0);
+    mainLayout->setSpacing(6);
     mainLayout->setMargin(0);
     mainLayout->addLayout(rightButtonLayout, 0);
-    //mainLayout->addWidget(detailTableHeaderLabel, 0);
     mainLayout->addWidget(detailTableView, 1);
     mainLayout->addWidget(tagView);
     mainLayout->addWidget(webView);

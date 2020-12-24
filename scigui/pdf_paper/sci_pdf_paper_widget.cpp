@@ -24,7 +24,7 @@ sci_pdf_paper_widget::sci_pdf_paper_widget(scicore::sci_pdf_paper* paper,QWidget
     _splitter->setStretchFactor(1,1);
 
     _layout = new QVBoxLayout;
-    _layout->addWidget(_splitter, 0, Qt::AlignHCenter);
+    _layout->addWidget(_splitter);
     this->setLayout(_layout);
 
     this->_pdf_reader->suit_page();

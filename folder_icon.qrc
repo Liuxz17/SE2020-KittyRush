@@ -4,5 +4,10 @@
         <file>file_icon/Folder_Attempt.png</file>
         <file>file_icon/Folder_Attempt_Dark.png</file>
         <file>file_icon/Folder_Attempt_Generic_Dark.png</file>
+        <file>file_icon/pdf.png</file>
+    </qresource>
+    <qresource prefix="/gfx/image">
+        <file>welcome_page/logo.png</file>
+        <file>welcome_page/welcome.jpg</file>
     </qresource>
 </RCC>

@@ -7,12 +7,12 @@ namespace scigui {
 sci_ui_pdf_paper::sci_ui_pdf_paper(std::string name, sci_file_model* model, scicore::sci_file* parent):sci_ui_file(model)
 {
     this->_file=new scicore::sci_pdf_paper(name,parent);
-    _icon = QIcon(":/gfx/icon/file_icon/Folder_Attempt.png");
+    _icon = QIcon(":/gfx/icon/file_icon/pdf.png");
 }
 
 sci_ui_pdf_paper::sci_ui_pdf_paper(scicore::sci_pdf_paper* file, sci_file_model* model):sci_ui_file(model){
     this->_file = file;
-    _icon = QIcon(":/gfx/icon/file_icon/Folder_Attempt.png");
+    _icon = QIcon(":/gfx/icon/file_icon/pdf.png");
 }
 
 QMenu* sci_ui_pdf_paper::context_menu(QWidget* parent) {

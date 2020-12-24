@@ -13,6 +13,7 @@ sci_ui_file_tree_view::sci_ui_file_tree_view(QWidget* parent):QTreeView(parent)
     treeFont.setPointSize(14);
     setFont(treeFont);
     setContextMenuPolicy(Qt::CustomContextMenu);
+    setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     connect(this, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(detail_widget_requested(QModelIndex)));
 

@@ -23,7 +23,6 @@ public:
     QPushButton *tagButton;
     QPushButton *webButton;
 
-    QLabel *detailTableHeaderLabel;
     QTableView *detailTableView;
     QStandardItemModel *detailTableModel;
 
