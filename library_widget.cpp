@@ -203,8 +203,7 @@ void library_widget::set_up_layout(){
     splitter->addWidget(_tree_view);
     splitter->addWidget(_tab_widget);
 
-    splitter->setStretchFactor(0,4);
-    splitter->setStretchFactor(1,16);
+    splitter->setStretchFactor(1, 1);
     splitter->setHandleWidth(1);
     // mainLayout
     QHBoxLayout* mainLayout = new QHBoxLayout(ui->centralwidget);

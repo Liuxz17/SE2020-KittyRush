@@ -6,14 +6,23 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1440</width>
+    <height>810</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <widget class="QTreeView" name="treeView_library_file_tree">
     <property name="geometry">
      <rect>
@@ -23,6 +32,12 @@
       <height>491</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <attribute name="headerVisible">
+     <bool>true</bool>
+    </attribute>
    </widget>
    <widget class="QTabWidget" name="tabWidget_file_edit">
     <property name="geometry">
@@ -33,12 +48,27 @@
       <height>541</height>
      </rect>
     </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
     <widget class="QWidget" name="tab">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
+     </property>
      <attribute name="title">
       <string>Tab 1</string>
      </attribute>
     </widget>
     <widget class="QWidget" name="tab_2">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
+     </property>
      <attribute name="title">
       <string>Tab 2</string>
      </attribute>
@@ -50,9 +80,12 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>26</height>
+     <width>1440</width>
+     <height>23</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
