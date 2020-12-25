@@ -30,6 +30,9 @@ SOURCES += \
     scicore/sci_folder.cpp \
     scicore/sci_pdf_file.cpp \
     scicore/sci_pdf_paper.cpp \
+    scicore/sci_folder_test.cpp \
+    scicore/sci_library_test.cpp \
+    scicore/sci_pdf_file_test.cpp \
     scigui/folder/sci_ui_add_item_dialog.cpp \
     scigui/folder/sci_ui_folder_edit_widget.cpp \
     scigui/lib_buffer/sci_ui_total_library_widget.cpp \
@@ -58,6 +61,7 @@ SOURCES += \
     scisl/sci_sl_lib.cpp \
     scisl/sci_sl_lib_buffer.cpp \
     scisl/sci_sl_pdf_paper.cpp \
+    scisl/sic_sl_lib_test.cpp  \
     welcome_widget.cpp
 
 HEADERS += \
@@ -70,6 +74,9 @@ HEADERS += \
     scicore/sci_pdf_file.h \
     scicore/sci_pdf_paper.h \
     scicore/sci_file_visitor.h \
+    scicore/sci_folder_test.h \
+    scicore/sci_library_test.h \
+    scicore/sci_pdf_file_test.h \
     scigui/folder/sci_ui_add_item_dialog.h \
     scigui/folder/sci_ui_folder_edit_widget.h \
     scigui/lib_buffer/sci_ui_total_library_widget.h \
@@ -98,6 +105,7 @@ HEADERS += \
     scisl/sci_sl_lib.h \
     scisl/sci_sl_lib_buffer.h \
     scisl/sci_sl_pdf_paper.h \
+    scisl/sci_sl_lib_test.h \
     welcome_widget.h
 
 FORMS += \
